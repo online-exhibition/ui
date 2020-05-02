@@ -1,7 +1,9 @@
 import React from 'react';
+import {Link as RouterLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {Toolbar, IconButton, Icon, Typography, Button} from '@material-ui/core';
+import {Toolbar, IconButton, Icon, Typography, Button, Link}
+  from '@material-ui/core';
 
 import {useStyles} from 'styles';
 
@@ -17,6 +19,16 @@ const NavigationToolbarLoggedIn = ({user, onLogout}) => {
       >
         <Icon>menu</Icon>
       </IconButton>
+      <Typography variant="button">
+        <Link
+          component={RouterLink}
+          to="/upload"
+          underline="none"
+          className={classes.navLink}
+        >
+      Hochladen
+        </Link>
+      </Typography>
       <Typography variant="h6" className={classes.grow}>
 
       </Typography>

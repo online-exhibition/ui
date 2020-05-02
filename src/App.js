@@ -4,9 +4,12 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navigation from 'narratives/Navigation';
 
 import Home from 'narratives/public/Home';
+
 import Register from 'narratives/user/Register';
 import Confirm from 'narratives/user/Confirm';
 import Login from 'narratives/user/Login';
+
+import Upload from 'narratives/upload/Upload';
 
 
 /**
@@ -21,6 +24,7 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/confirm" component={Confirm} />
         <Route path="/login" component={Login} />
+        <Route path="/upload" component={Upload} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>
