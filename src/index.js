@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {Ajax} from 'components/Ajax';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Ajax>
+      <App />
+    </Ajax>,
+    document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
