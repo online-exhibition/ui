@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Ajax} from 'components/Ajax';
+import Toaster from 'components/Toaster';
 
 ReactDOM.render(
     <Ajax>
-      <App />
+      <Toaster>
+        <App />
+      </Toaster>
     </Ajax>,
     document.getElementById('root'),
 );

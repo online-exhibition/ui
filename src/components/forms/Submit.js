@@ -37,7 +37,7 @@ const Submit = ({busy, children, ...props}) => {
 
 Submit.propTypes = {
   busy: PropTypes.bool,
-  children: PropTypes.arrayOf(PropTypes.element),
+  children: PropTypes.any,
 };
 
 export default Submit;

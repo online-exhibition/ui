@@ -23,7 +23,7 @@ function Navigation(props) {
   const logout = useCallback(() => {
     ajax.removeAuthorization();
     history.push('/');
-  }, [ajax]);
+  }, [ajax, history]);
 
   return (
     <AppBar position="static">

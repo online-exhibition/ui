@@ -35,7 +35,7 @@ const Confirm = (props) => {
               console.error(err);
             });
       },
-      [location, ajax, setPending],
+      [location, history, ajax, setPending],
   );
 
   return (

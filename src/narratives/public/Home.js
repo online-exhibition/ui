@@ -1,20 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {Container, Typography} from '@material-ui/core';
+import {useStyles} from 'styles';
 
-const Home = (props) => {
+const Home = () => {
+  const classes = useStyles();
   return (
-    <Container fluid maxWidth="lg">
+    <Container maxWidth="lg" className={classes.mt4}>
       <Typography variant="h3">
             FLAB
       </Typography>
     </Container>
   );
-};
-
-Home.propTypes = {
-
 };
 
 export default Home;

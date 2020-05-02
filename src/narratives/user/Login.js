@@ -1,8 +1,10 @@
 import React, {useState, useCallback} from 'react';
 
 import {Container} from '@material-ui/core';
+
 import {useStyles} from 'styles';
 import {useAjax} from 'components/Ajax';
+import {useToatser} from 'components/Toaster';
 import {encodeBasic} from 'utils/http';
 import LoginForm from './LoginForm';
 import LoginSuccess from './LoginSuccess';
@@ -10,6 +12,7 @@ import LoginSuccess from './LoginSuccess';
 const Login = () => {
   const classes = useStyles();
   const ajax = useAjax();
+  const {toast} = useToatser();
 
   const [pending, setPending] = useState(false);
   const {loggedIn, user} = ajax;
@@ -29,6 +32,7 @@ const Login = () => {
                 setPending(false);
                 ajax.installAuthorization(
                     encodeBasic(username, password), data);
+                toast('Sie sind nun eingeloggt.');
               }, 500);
             })
             .catch((err) => {
@@ -36,7 +40,7 @@ const Login = () => {
               console.error(err);
             });
       },
-      [ajax, setPending],
+      [ajax, setPending, toast],
   );
 
   return (
