@@ -11,9 +11,8 @@ const Login = () => {
   const classes = useStyles();
   const ajax = useAjax();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(ajax.hasAuthorization());
   const [pending, setPending] = useState(false);
-  const [user, setUser] = useState(ajax.getUser());
+  const {loggedIn, user} = ajax;
 
   const doSubmit = useCallback(
       (userRequest) => {
@@ -28,23 +27,21 @@ const Login = () => {
             .then((data) => {
               setTimeout(() => {
                 setPending(false);
-                setUser(data);
                 ajax.installAuthorization(
                     encodeBasic(username, password), data);
-                setIsLoggedIn(ajax.hasAuthorization());
-              }, 3000);
+              }, 500);
             })
             .catch((err) => {
               setPending(false);
               console.error(err);
             });
       },
-      [ajax, setPending, setUser],
+      [ajax, setPending],
   );
 
   return (
     <Container maxWidth="lg" className={classes.mt4}>
-      {isLoggedIn ? (
+      {loggedIn ? (
         <LoginSuccess user={user} />
       ):(
         <LoginForm busy={pending} onSubmit={doSubmit}/>

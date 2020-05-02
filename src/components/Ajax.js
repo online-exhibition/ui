@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useCallback} from 'react';
 import {setSessionItem, getSessionItem, removeSessionItem} from 'utils/storage';
 import {HttpError} from 'utils/http';
 
@@ -8,18 +8,7 @@ export const useAjax = () => useContext(AjaxContext);
 const exposedMethods = ['get', 'post', 'head', 'put'];
 
 function createExposed({headers = {}}) {
-  const expose = {
-    installAuthorization: (token, user) => {
-      setSessionItem('authorization', token);
-      setSessionItem('user', user);
-    },
-    removeAuthorization: () => {
-      removeSessionItem('authorization');
-      removeSessionItem('user');
-    },
-    hasAuthorization: () => getSessionItem('authorization') != null,
-    getUser: () => getSessionItem('user', {}),
-  };
+  const expose = { };
   exposedMethods.forEach((methodName) => {
     expose[methodName] = (uri, data, requestConfig) => {
       const options =
@@ -65,5 +54,31 @@ function createExposed({headers = {}}) {
 // eslint-disable-next-line react/prop-types
 export function Ajax({children, ...props}) {
   const [expose] = useState(createExposed(props));
-  return <AjaxContext.Provider value={expose}>{children}</AjaxContext.Provider>;
+  const [loggedIn, setLoggedIn] = useState(
+      getSessionItem('authorization') != null);
+  const [user, setUser] = useState(getSessionItem('user', {}));
+  const installAuthorization = useCallback((token, user) => {
+    setSessionItem('authorization', token);
+    setSessionItem('user', user);
+    setLoggedIn(true);
+    setUser(user);
+  }, [setLoggedIn, setUser]);
+  const removeAuthorization = useCallback(() => {
+    removeSessionItem('authorization');
+    removeSessionItem('user');
+    setLoggedIn(false);
+    setUser({});
+  }, [setLoggedIn, setUser]);
+  const hasAuthorization = useCallback(() => loggedIn, [loggedIn]);
+
+  return (
+    <AjaxContext.Provider value={{...expose,
+      loggedIn,
+      user,
+      hasAuthorization,
+      installAuthorization,
+      removeAuthorization}}>
+      {children}
+    </AjaxContext.Provider>
+  );
 }
