@@ -22,6 +22,14 @@ const NavigationToolbarLoggedIn = ({user, onLogout}) => {
       <Typography variant="button">
         <Link
           component={RouterLink}
+          to="/images"
+          underline="none"
+          className={classes.navLink}
+        >
+      Bilder
+        </Link>
+        <Link
+          component={RouterLink}
           to="/upload"
           underline="none"
           className={classes.navLink}

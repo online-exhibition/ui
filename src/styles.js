@@ -11,6 +11,9 @@ export const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  silentIcon: {
+    color: 'rgba(255, 255, 255, 0.54)',
+  },
 
   p1: {
     padding: theme.spacing(1),
@@ -32,6 +35,28 @@ export const useStyles = makeStyles((theme) => ({
   },
   p7: {
     padding: theme.spacing(7),
+  },
+
+  m1: {
+    margin: theme.spacing(1),
+  },
+  m2: {
+    margin: theme.spacing(2),
+  },
+  m3: {
+    margin: theme.spacing(3),
+  },
+  m4: {
+    margin: theme.spacing(4),
+  },
+  m5: {
+    margin: theme.spacing(5),
+  },
+  m6: {
+    margin: theme.spacing(6),
+  },
+  m7: {
+    margin: theme.spacing(7),
   },
 
   mt1: {

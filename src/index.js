@@ -1,17 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import store from 'redux/store';
+
 import './index.css';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+
 import {Ajax} from 'components/Ajax';
 import Toaster from 'components/Toaster';
 
+import * as serviceWorker from './serviceWorker';
+
 ReactDOM.render(
-    <Ajax>
-      <Toaster>
-        <App />
-      </Toaster>
-    </Ajax>,
+    <Provider store={store}>
+      <Ajax>
+        <Toaster>
+          <App />
+        </Toaster>
+      </Ajax>
+    </Provider>,
     document.getElementById('root'),
 );
 

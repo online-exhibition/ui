@@ -42,7 +42,7 @@ const Upload = () => {
         <button type="button" onClick={upload}>Hochladen</button>
       </form>
       {imageId ? <Grid>
-        <img src={`/api/images/${imageId}`} />
+        <img src={`/api/image/${imageId}`} />
       </Grid> : null}
     </Container>
   );

@@ -11,6 +11,8 @@ import Login from 'narratives/user/Login';
 
 import Upload from 'narratives/upload/Upload';
 
+import Images from 'narratives/management/Images';
+
 
 /**
  * Exhibition app entry point
@@ -25,6 +27,7 @@ function App() {
         <Route path="/confirm" component={Confirm} />
         <Route path="/login" component={Login} />
         <Route path="/upload" component={Upload} />
+        <Route path="/images" component={Images} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

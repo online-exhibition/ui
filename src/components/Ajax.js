@@ -94,6 +94,9 @@ function createExposed({headers = {}}) {
                   response,
               );
             }
+            if (options.returnResponse) {
+              return response;
+            }
             return response.json();
           });
     };
