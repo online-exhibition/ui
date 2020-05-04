@@ -18,7 +18,14 @@ const NavigationToolbar = () => {
         <Icon>menu</Icon>
       </IconButton>
       <Typography variant="h6" className={classes.grow}>
-
+        <Link
+          component={RouterLink}
+          to="/exhibition"
+          underline="none"
+          className={classes.navLink}
+        >
+      Ausstellung
+        </Link>
       </Typography>
       <Typography variant="button">
         <Link

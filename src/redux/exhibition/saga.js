@@ -17,7 +17,7 @@ function* loadExhibitions() {
       console.error(err);
       yield put(exhibitionsLoadFailure(err));
     } else {
-      yield put(exhibitionsLoadSuccess(response.json()));
+      yield put(exhibitionsLoadSuccess(yield response.json()));
     }
   } catch (err) {
     console.error(err);

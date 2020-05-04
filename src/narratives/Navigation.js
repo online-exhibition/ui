@@ -1,20 +1,24 @@
 import React, {useCallback} from 'react';
+import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import {
-  AppBar,
+  AppBar, Slide,
 } from '@material-ui/core';
 
 import {useAjax} from 'components/Ajax';
+
 import NavigationToolbarLoggedIn from './NavigationToolbarLoggedIn';
 import NavigationToolbar from './NavigationToolbar';
+import selectors from 'redux/selectors';
 
 /**
  * Navigation element
- * @param  {object} props
+ * @param {object} props
  * @return {function} Navigation renderer
  */
-function Navigation(props) {
+function Navigation({showAppBar}) {
   const ajax = useAjax();
   const history = useHistory();
 
@@ -26,14 +30,28 @@ function Navigation(props) {
   }, [ajax, history]);
 
   return (
-    <AppBar position="static">
-      {loggedIn ? (
+    <Slide in={showAppBar}>
+      <AppBar position="static">
+        {loggedIn ? (
         <NavigationToolbarLoggedIn user={user} onLogout={logout} />
       ) : (
         <NavigationToolbar />
       )}
-    </AppBar>
+      </AppBar>
+    </Slide>
   );
 }
 
-export default Navigation;
+Navigation.propTypes ={
+  showAppBar: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => {
+  // Because of a problem with zombie children,
+  //    useSelector doesn't work properly
+  return {
+    showAppBar: selectors.appbar.show(state),
+  };
+};
+
+export default connect(mapStateToProps)(Navigation);

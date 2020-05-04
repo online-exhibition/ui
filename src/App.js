@@ -12,6 +12,7 @@ import Login from 'narratives/user/Login';
 import Upload from 'narratives/upload/Upload';
 
 import Images from 'narratives/management/Images';
+import Exhibition from 'narratives/exhibition/Exhibition';
 
 
 /**
@@ -28,6 +29,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/upload" component={Upload} />
         <Route path="/images" component={Images} />
+        <Route path="/exhibition" component={Exhibition} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>
