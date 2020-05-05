@@ -1,27 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import store from 'redux/store';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from "redux/store";
 
-import './index.css';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import "./index.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-import App from './App';
+import App from "./App";
 
-import {Ajax} from 'components/Ajax';
-import Toaster from 'components/Toaster';
+import { Ajax } from "components/Ajax";
+import Toaster from "components/Toaster";
 
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from "./serviceWorker";
+import Authentication from "services/authentication/Authentication";
+import ConfirmDialog from "components/ConfirmDialog";
 
 ReactDOM.render(
-    <Provider store={store}>
+  <Provider store={store}>
+    <Authentication mode="basic">
       <Ajax>
-        <Toaster>
-          <App />
-        </Toaster>
+        <ConfirmDialog>
+          <Toaster>
+            <App />
+          </Toaster>
+        </ConfirmDialog>
       </Ajax>
-    </Provider>,
-    document.getElementById('root'),
+    </Authentication>
+  </Provider>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

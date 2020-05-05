@@ -85,7 +85,7 @@ const Exhibition = () => {
           <Typography variant="h4">{exhibition.title}</Typography>
           <Typography variant="h6">
             {Array.isArray(exhibition.images) &&
-              exhibition.images[imageIndex].filename}
+              exhibition.images[imageIndex].title}
           </Typography>
         </Grid>
         {exhibition &&
