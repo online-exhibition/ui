@@ -1,8 +1,8 @@
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
   navLink: {
-    color: 'white',
+    color: "white",
     marginRight: theme.spacing(2),
   },
   menuButton: {
@@ -12,7 +12,12 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   silentIcon: {
-    color: 'rgba(255, 255, 255, 0.54)',
+    color: "rgba(255, 255, 255, 0.54)",
+  },
+
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
   },
 
   p1: {
@@ -145,5 +150,93 @@ export const useStyles = makeStyles((theme) => ({
   },
   ml7: {
     marginLeft: theme.spacing(7),
+  },
+
+  pt1: {
+    paddingTop: theme.spacing(1),
+  },
+  pt2: {
+    paddingTop: theme.spacing(2),
+  },
+  pt3: {
+    paddingTop: theme.spacing(3),
+  },
+  pt4: {
+    paddingTop: theme.spacing(4),
+  },
+  pt5: {
+    paddingTop: theme.spacing(5),
+  },
+  pt6: {
+    paddingTop: theme.spacing(6),
+  },
+  pt7: {
+    paddingTop: theme.spacing(7),
+  },
+
+  pb1: {
+    paddingBottom: theme.spacing(1),
+  },
+  pb2: {
+    paddingBottom: theme.spacing(2),
+  },
+  pb3: {
+    paddingBottom: theme.spacing(3),
+  },
+  pb4: {
+    paddingBottom: theme.spacing(4),
+  },
+  pb5: {
+    paddingBottom: theme.spacing(5),
+  },
+  pb6: {
+    paddingBottom: theme.spacing(6),
+  },
+  pb7: {
+    paddingBottom: theme.spacing(7),
+  },
+
+  pr1: {
+    paddingRight: theme.spacing(1),
+  },
+  pr2: {
+    paddingRight: theme.spacing(2),
+  },
+  pr3: {
+    paddingRight: theme.spacing(3),
+  },
+  pr4: {
+    paddingRight: theme.spacing(4),
+  },
+  pr5: {
+    paddingRight: theme.spacing(5),
+  },
+  pr6: {
+    paddingRight: theme.spacing(6),
+  },
+  pr7: {
+    paddingRight: theme.spacing(7),
+  },
+
+  pl1: {
+    paddingLeft: theme.spacing(1),
+  },
+  pl2: {
+    paddingLeft: theme.spacing(2),
+  },
+  pl3: {
+    paddingLeft: theme.spacing(3),
+  },
+  pl4: {
+    paddingLeft: theme.spacing(4),
+  },
+  pl5: {
+    paddingLeft: theme.spacing(5),
+  },
+  pl6: {
+    paddingLeft: theme.spacing(6),
+  },
+  pl7: {
+    paddingLeft: theme.spacing(7),
   },
 }));
