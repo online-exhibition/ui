@@ -29,7 +29,7 @@ const Images = () => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
-  const { images, count, pageCount } = useImages(page, pageSize);
+  const { images, count, pageCount, remove } = useImages(page, pageSize);
 
   const [pop, setPop] = useState(false);
   const [anchor, setAnchor] = useState();
@@ -76,9 +76,17 @@ const Images = () => {
                     to={`/management/images/${tile.id}`}
                     aria-label={`info about ${tile.filename}`}
                     className={classes.silentIcon}
-                    onClick={(event) => {}}
                   >
                     <Icon>edit</Icon>
+                  </IconButton>
+                  <IconButton
+                    aria-label={`info about ${tile.filename}`}
+                    className={classes.silentIcon}
+                    onClick={async (event) => {
+                      await remove(tile.id);
+                    }}
+                  >
+                    <Icon>delete</Icon>
                   </IconButton>
                 </>
               }

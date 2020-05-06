@@ -11,7 +11,7 @@ export function useImages(page, pageSize = 10) {
   const [images, setImages] = useState([]);
   const [error, setError] = useState();
 
-  useEffect(() => {
+  const refresh = useCallback(() => {
     (async () => {
       setLoading(true);
       try {
@@ -49,11 +49,51 @@ export function useImages(page, pageSize = 10) {
     })();
   }, [page, pageSize, setLoading, setImages, setCount, setPageCount, setError]);
 
+  const remove = useCallback(
+    (id) => {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          setLoading(true);
+          const token = await getTokenSilently();
+          const response = await fetch(`/api/management/image/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          });
+          if (response.status > 399) {
+            throw new HttpError(
+              response.status,
+              "RemoveImageFailed",
+              await response.json()
+            );
+          }
+          refresh();
+          resolve(true);
+        } catch (err) {
+          setError(err);
+          reject(err);
+        } finally {
+          setLoading(false);
+        }
+      });
+      return promise;
+    },
+    [setLoading, setError, getTokenSilently]
+  );
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
   return {
     loading,
     images,
     count,
     pageCount,
+    remove,
+    refresh,
     error,
   };
 }

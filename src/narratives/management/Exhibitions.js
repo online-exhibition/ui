@@ -136,7 +136,7 @@ const Exhibitions = () => {
                     edge="end"
                     component={RouterLink}
                     to={`/exhibition/${exhibition.id}`}
-                    target="_blank"
+                    target={exhibition.id}
                   >
                     <Icon>play_circle_outline</Icon>
                   </IconButton>

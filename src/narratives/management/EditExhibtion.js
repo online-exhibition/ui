@@ -116,7 +116,7 @@ const EditExhibtion = (props) => {
                     edge="end"
                     component={RouterLink}
                     to={`/exhibition/${exhibition.id}`}
-                    target="_blank"
+                    target={exhibition.id}
                     className={classes.mr3}
                   >
                     <Icon fontSize="large">play_circle_outline</Icon>

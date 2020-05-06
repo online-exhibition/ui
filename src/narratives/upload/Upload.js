@@ -13,11 +13,13 @@ const Upload = () => {
 
   const [formRef] = useState(React.createRef());
   const [imageId, setImageId] = useState();
+  const [uploadedCount, setUploadedCount] = useState(0);
 
   const upload = () => {
     const formData = new FormData(formRef.current);
     const files = formData.getAll("images");
     let uploadIndex = 0;
+    setUploadedCount(0);
     const doUpload = () => {
       (async () => {
         console.log(uploadIndex, files.length);
@@ -26,6 +28,7 @@ const Upload = () => {
         });
         upload("/api/upload", { name: "image", file: files[uploadIndex] }).then(
           (data) => {
+            setUploadedCount(uploadIndex + 1);
             uploadIndex++;
             if (uploadIndex < files.length) {
               doUpload();
@@ -40,6 +43,7 @@ const Upload = () => {
   const filesChosen = useCallback((event) => {}, []);
   return (
     <Container maxWidth="lg" className={classes.mt4}>
+      {uploadedCount} Datein wurden hochgeladen.
       <form
         ref={formRef}
         action="/api/upload"
