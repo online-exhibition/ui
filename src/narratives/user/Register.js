@@ -4,32 +4,39 @@ import { Container } from "@material-ui/core";
 
 import { useStyles } from "styles";
 
+import { useUsers } from "services/user/users";
 import RegisterForm from "./RegisterForm";
 import RegisterSuccess from "./RegisterSuccess";
+import { useToatser } from "components/Toaster";
 
 const Register = () => {
   const classes = useStyles();
 
-  const [pending, setPending] = useState(false);
+  const { toast } = useToatser();
+
+  const { create } = useUsers();
+
   const [success, setSuccess] = useState(false);
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(false);
 
   const doSubmit = useCallback(
-    (userRequest) => {
-      setPending(true);
-      // ajax
-      //     .post('/api/user', userRequest)
-      //     .then((data) => {
-      //       setPending(false);
-      //       setSuccess(true);
-      //       setUser(userRequest);
-      //     })
-      //     .catch((err) => {
-      //       setPending(false);
-      //       console.error(err);
-      //     });
+    async (userRequest) => {
+      setLoading(true);
+      try {
+        const result = await create(userRequest);
+        if (result) {
+          setUser(userRequest);
+          setSuccess(true);
+        }
+      } catch (err) {
+        console.error(err);
+        toast("Ihr Benutzer konnte nicht angelegt werden.", "error", 10000);
+      } finally {
+        setLoading(false);
+      }
     },
-    [setPending, setSuccess]
+    [create, toast, setLoading, setSuccess]
   );
 
   return (
@@ -37,7 +44,7 @@ const Register = () => {
       {success ? (
         <RegisterSuccess user={user} />
       ) : (
-        <RegisterForm busy={pending} onSubmit={doSubmit} />
+        <RegisterForm busy={loading} onSubmit={doSubmit} />
       )}
     </Container>
   );
