@@ -138,7 +138,7 @@ export function useImage(id) {
         if (response.status > 399) {
           throw new HttpError(
             response.status,
-            "SaveImageFailed",
+            "RemoveImageFailed",
             await response.json()
           );
         }

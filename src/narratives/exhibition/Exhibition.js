@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import selectors from "redux/selectors";
-import { useAjax } from "components/Ajax";
-import { useStyles } from "styles";
-import { showAppBar, hideAppBar } from "redux/appbar/actions";
+
 import { Carousel } from "react-responsive-carousel";
+
+import { useStyles } from "styles";
+
+import selectors from "redux/selectors";
+import { showAppBar, hideAppBar } from "redux/appbar/actions";
 import { scaleToScreen } from "utils/dimensions";
+import { useExhibition } from "services/management/exhibitions";
+import { useParams } from "react-router-dom";
 
 const useLocalStyles = makeStyles((theme) => ({
   carousel: {
@@ -16,12 +20,15 @@ const useLocalStyles = makeStyles((theme) => ({
 
 const Exhibition = () => {
   const classes = useStyles();
+  const { id } = useParams();
   const localClasses = useLocalStyles();
-  const ajax = useAjax();
   const dispatch = useDispatch();
 
   const items = useSelector(selectors.exhibition.getItems);
-  const [exhibition, setExhibition] = useState({});
+  const { exhibition } = useExhibition(
+    id || (items && items.length > 0 && items[0].id)
+  );
+
   const [carouselWidth, setCarouselWidth] = useState();
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -36,36 +43,38 @@ const Exhibition = () => {
 
   useEffect(() => {
     const body = document.querySelector("body");
-    if (items && items.length > 0) {
-      ajax.get(`/api/exhibition/${items[0].id}`).then((data) => {
-        const clientRect = document
-          .querySelector("#container")
-          .getBoundingClientRect();
-        const containerStyle = getComputedStyle(
-          document.querySelector("#container")
+    if (exhibition && exhibition.images) {
+      const clientRect = document
+        .querySelector("#container")
+        .getBoundingClientRect();
+      const containerStyle = getComputedStyle(
+        document.querySelector("#container")
+      );
+      console.log("Height", containerStyle.height);
+      let maxWidth = 0;
+      exhibition.images.forEach((image) => {
+        const { width, height } = scaleToScreen(
+          image.width,
+          image.height,
+          80,
+          clientRect.left
         );
-        console.log("Height", containerStyle.height);
-        let maxWidth = 0;
-        data.images.forEach((image) => {
-          const { width, height } = scaleToScreen(
-            image.width,
-            image.height,
-            80,
-            clientRect.left
-          );
-          image.scaleWidth = width;
-          image.scaleHeight = height;
-          maxWidth = Math.max(maxWidth, width);
-        });
-        setCarouselWidth(maxWidth);
-        setExhibition(data);
-        body.style.backgroundColor = "#444444"; // data.backgroundColor;
-        dispatch(hideAppBar());
+        image.scaleWidth = width;
+        image.scaleHeight = height;
+        maxWidth = Math.max(maxWidth, width);
       });
+      setCarouselWidth(maxWidth);
+      body.style.backgroundColor = "#444444"; // data.backgroundColor;
+      dispatch(hideAppBar());
     }
     return () => {};
-  }, [items, setExhibition, setCarouselWidth, dispatch]);
+  }, [exhibition, setCarouselWidth, dispatch]);
 
+  console.log(exhibition, items);
+
+  if (!exhibition) {
+    return null;
+  }
   return (
     <div
       style={{

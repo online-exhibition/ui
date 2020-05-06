@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Link as RouterLink, useLocation, useHistory } from "react-router-dom";
 
 import {
@@ -17,7 +17,6 @@ import { Pagination } from "@material-ui/lab";
 
 import { useStyles } from "styles";
 
-import { useToatser } from "components/Toaster";
 import FormatBytes from "components/FormatBytes";
 import PreloadedImage from "components/PreloadedImage";
 
@@ -25,7 +24,6 @@ import { useImages } from "services/management/images";
 
 const Images = () => {
   const classes = useStyles();
-  const { toast } = useToatser();
   const history = useHistory();
   const location = useLocation();
 
@@ -75,7 +73,7 @@ const Images = () => {
                 <>
                   <IconButton
                     component={RouterLink}
-                    to={`/images/${tile.id}`}
+                    to={`/management/images/${tile.id}`}
                     aria-label={`info about ${tile.filename}`}
                     className={classes.silentIcon}
                     onClick={(event) => {}}

@@ -3,12 +3,17 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import store from "redux/store";
 
+import { de } from "date-fns/locale";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { DndProvider } from "react-dnd";
+import Backend from "react-dnd-html5-backend";
+
 import "./index.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import App from "./App";
 
-import { Ajax } from "components/Ajax";
 import Toaster from "components/Toaster";
 
 import * as serviceWorker from "./serviceWorker";
@@ -18,13 +23,15 @@ import ConfirmDialog from "components/ConfirmDialog";
 ReactDOM.render(
   <Provider store={store}>
     <Authentication mode="basic">
-      <Ajax>
-        <ConfirmDialog>
-          <Toaster>
-            <App />
-          </Toaster>
-        </ConfirmDialog>
-      </Ajax>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={de}>
+        <DndProvider backend={Backend}>
+          <ConfirmDialog>
+            <Toaster>
+              <App />
+            </Toaster>
+          </ConfirmDialog>
+        </DndProvider>
+      </MuiPickersUtilsProvider>
     </Authentication>
   </Provider>,
   document.getElementById("root")

@@ -1,13 +1,19 @@
-import React from 'react';
-import {Link as RouterLink} from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import {Toolbar, IconButton, Icon, Typography, Button, Link}
-  from '@material-ui/core';
+import {
+  Toolbar,
+  IconButton,
+  Icon,
+  Typography,
+  Button,
+  Link,
+} from "@material-ui/core";
 
-import {useStyles} from 'styles';
+import { useStyles } from "styles";
 
-const NavigationToolbarLoggedIn = ({user, onLogout}) => {
+const NavigationToolbarLoggedIn = ({ user, onLogout }) => {
   const classes = useStyles();
   return (
     <Toolbar>
@@ -22,11 +28,19 @@ const NavigationToolbarLoggedIn = ({user, onLogout}) => {
       <Typography variant="button">
         <Link
           component={RouterLink}
-          to="/images"
+          to="/management/images"
           underline="none"
           className={classes.navLink}
         >
-      Bilder
+          Bilder
+        </Link>
+        <Link
+          component={RouterLink}
+          to="/management/exhibition"
+          underline="none"
+          className={classes.navLink}
+        >
+          Ausstellungen
         </Link>
         <Link
           component={RouterLink}
@@ -34,13 +48,13 @@ const NavigationToolbarLoggedIn = ({user, onLogout}) => {
           underline="none"
           className={classes.navLink}
         >
-      Hochladen
+          Hochladen
         </Link>
       </Typography>
-      <Typography variant="h6" className={classes.grow}>
-
-      </Typography>
-      <Button color="inherit" onClick={onLogout}>Ausloggen</Button>
+      <Typography variant="h6" className={classes.grow}></Typography>
+      <Button color="inherit" onClick={onLogout}>
+        Ausloggen
+      </Button>
     </Toolbar>
   );
 };

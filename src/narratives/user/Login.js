@@ -3,51 +3,32 @@ import React, { useState, useCallback } from "react";
 import { Container } from "@material-ui/core";
 
 import { useStyles } from "styles";
-import { useAjax } from "components/Ajax";
+
 import { useToatser } from "components/Toaster";
-import { encodeBasic } from "utils/http";
+import { useAuth } from "services/authentication/Authentication";
+
 import LoginForm from "./LoginForm";
 import LoginSuccess from "./LoginSuccess";
 
 const Login = () => {
   const classes = useStyles();
-  const ajax = useAjax();
   const { toast } = useToatser();
-
-  const [pending, setPending] = useState(false);
-  const { loggedIn, user } = ajax;
+  const { loading, isAuthenticated, login, user } = useAuth();
 
   const doSubmit = useCallback(
     (userRequest) => {
       const { username, password } = userRequest;
-      setPending(true);
-      ajax
-        .get("/api/user/login", {
-          headers: {
-            Authorization: encodeBasic(username, password),
-          },
-        })
-        .then((data) => {
-          setTimeout(() => {
-            setPending(false);
-            ajax.installAuthorization(encodeBasic(username, password), data);
-            toast("Sie sind nun eingeloggt.");
-          }, 500);
-        })
-        .catch((err) => {
-          setPending(false);
-          console.error(err);
-        });
+      login(username, password);
     },
-    [ajax, setPending, toast]
+    [toast]
   );
 
   return (
     <Container maxWidth="lg" className={classes.mt4}>
-      {loggedIn ? (
+      {isAuthenticated && user ? (
         <LoginSuccess user={user} />
       ) : (
-        <LoginForm busy={pending} onSubmit={doSubmit} />
+        <LoginForm busy={loading} onSubmit={doSubmit} />
       )}
     </Container>
   );

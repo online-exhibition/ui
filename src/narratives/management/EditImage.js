@@ -24,6 +24,7 @@ import LabelValue from "components/LabelValue";
 import FormatAperture from "components/FormatAperture";
 import { useConfirm } from "components/ConfirmDialog";
 import { useToatser } from "components/Toaster";
+import FormatDateTime from "components/FormatDateTime";
 
 const EditImage = ({}) => {
   const classes = useStyles();
@@ -182,11 +183,7 @@ const EditImage = ({}) => {
                   <LabelValueList spacing={1}>
                     <LabelValue
                       label="Erstellt am:"
-                      value={
-                        new Date(image.originalCreated).toLocaleDateString() +
-                        " " +
-                        new Date(image.originalCreated).toLocaleTimeString()
-                      }
+                      value={<FormatDateTime value={image.originalCreated} />}
                     />
                     <LabelValue
                       label="Abmessung:"

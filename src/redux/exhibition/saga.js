@@ -1,17 +1,18 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import { call, put, takeEvery } from "redux-saga/effects";
 
 import {
   exhibitionsLoadSuccess,
   exhibitionsLoadFailure,
   exhibitionsLoading,
   exhibitionsLoadingDone,
-} from './actions';
+  EXHIBITIONS_LOAD,
+} from "./actions";
 
 function* loadExhibitions() {
   try {
-    console.log('Load exhibitions');
+    console.log("Load exhibitions");
     yield put(exhibitionsLoading());
-    const response = yield call(fetch, '/api/exhibition');
+    const response = yield call(fetch, "/api/exhibition");
     if (response.status > 399) {
       const err = response.json();
       console.error(err);
@@ -27,6 +28,7 @@ function* loadExhibitions() {
 }
 
 export default function* watchExhibitionActions() {
-  console.log('Watch exhibition');
-  yield takeEvery('@APP_INIT', loadExhibitions );
+  console.log("Watch exhibition");
+  yield takeEvery("@APP_INIT", loadExhibitions);
+  yield takeEvery(EXHIBITIONS_LOAD, loadExhibitions);
 }

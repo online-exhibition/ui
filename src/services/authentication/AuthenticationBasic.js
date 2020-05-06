@@ -11,12 +11,12 @@ import { AuthenticationContext } from "./AuthenticationContext";
 
 // eslint-disable-next-line react/prop-types
 export function AuthenticationBasic({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [authorization, setAuthorization] = useState(
     getSessionItem("authorization")
   );
-  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!authorization);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(getSessionItem("user"));
 
   const login = useCallback(
     async (username, password) => {
@@ -25,7 +25,7 @@ export function AuthenticationBasic({ children }) {
         const authorizationHeader = encodeBasic(username, password);
         const response = await fetch("/api/user/login", {
           headers: {
-            Authentication: authorizationHeader,
+            Authorization: authorizationHeader,
           },
         });
         if (response.status > 399) {
@@ -35,10 +35,12 @@ export function AuthenticationBasic({ children }) {
             await response.json()
           );
         }
+        const user = await response.json();
         setSessionItem("authorization", authorizationHeader);
+        setSessionItem("user", user);
         setAuthorization(authorizationHeader);
+        setUser(user);
         setIsAuthenticated(true);
-        setUser(await response.json());
       } catch (err) {
         console.error(err);
       } finally {
@@ -53,6 +55,7 @@ export function AuthenticationBasic({ children }) {
     setIsAuthenticated(false);
     setUser(null);
     removeSessionItem("authorization");
+    removeSessionItem("user");
   }, []);
 
   const getTokenSilently = useCallback(() => {
