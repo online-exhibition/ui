@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -Rf ../gateway/production/www && mkdir -p ../gateway/production/www && cp -Rf build/* ../gateway/production/www",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
