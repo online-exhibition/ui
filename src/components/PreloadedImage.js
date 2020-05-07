@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { CircularProgress, Grid, makeStyles, colors } from "@material-ui/core";
+import { Grid, makeStyles, colors, LinearProgress } from "@material-ui/core";
 
 const useLocalStyles = makeStyles((theme) => ({
   notFound: {
@@ -9,31 +9,41 @@ const useLocalStyles = makeStyles((theme) => ({
     verticalAlign: "middle",
     backgroundColor: colors.grey[100],
   },
+  progress: {
+    width: "100%",
+    marginLeft: "5%",
+    marginRight: "5%",
+  },
 }));
+
 const PreloadedImage = React.forwardRef(({ src, onLoad, ...props }, ref) => {
   const [loaded, setLoaded] = useState(false);
   const [notFount, setNotFound] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [imageData, setImageData] = useState();
 
   const classesLocal = useLocalStyles();
 
   useEffect(() => {
-    const img = new Image();
-    img.onprogress = (event) => {
-      console.log(src, event);
-    };
-    img.onload = (event) => {
+    (async () => {
+      const response = await fetch(src);
+      const reader = response.body.getReader();
+      const contentLength = +response.headers.get("Content-Length");
+      let receivedLength = 0;
+      const chunks = [];
+      while (receivedLength < contentLength) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        chunks.push(value);
+        receivedLength += value.length;
+        setProgress((receivedLength / contentLength) * 100);
+      }
+      setImageData(URL.createObjectURL(new Blob(chunks)));
       setLoaded(true);
-      onLoad && onLoad();
-    };
-    img.onerror = (error) => {
-      setLoaded(true);
-      setNotFound(true);
-    };
-    img.src = src;
-    return () => {
-      setLoaded(false);
-    };
-  }, [src, setLoaded, setNotFound]);
+    })();
+  }, [src, setLoaded, setNotFound, setProgress]);
 
   if (!loaded) {
     return (
@@ -43,7 +53,11 @@ const PreloadedImage = React.forwardRef(({ src, onLoad, ...props }, ref) => {
         alignItems="center"
         style={{ height: "100%" }}
       >
-        <CircularProgress size={32} />
+        <LinearProgress
+          variant="determinate"
+          value={progress}
+          className={classesLocal.progress}
+        />
       </Grid>
     );
   }
@@ -61,7 +75,7 @@ const PreloadedImage = React.forwardRef(({ src, onLoad, ...props }, ref) => {
       </Grid>
     );
   }
-  return <img ref={ref} src={src} {...props} />;
+  return <img ref={ref} src={imageData} {...props} />;
 });
 PreloadedImage.displayName = "PreloadedImage";
 

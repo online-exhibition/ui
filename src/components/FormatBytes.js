@@ -16,7 +16,7 @@ const PB = KB * TB;
 const ZB = KB * PB;
 const YB = KB * ZB;
 
-function toIEC(value, decimal) {
+export function toIECBytes(value, decimal) {
   if (value > YIB) {
     return (value / YIB).toFixed(decimal) + " YiB";
   } else if (value > ZIB) {
@@ -35,7 +35,7 @@ function toIEC(value, decimal) {
   return value + " B";
 }
 
-function toDefault(value, decimal) {
+export function toDefaultBytes(value, decimal) {
   if (value > YB) {
     return (value / YB).toFixed(decimal) + " YB";
   } else if (value > ZB) {
@@ -59,9 +59,9 @@ const FormatBytes = ({ iec = true, decimal = 2, value }) => {
     return "-";
   }
   if (iec) {
-    return toIEC(value, decimal);
+    return toIECBytes(value, decimal);
   }
-  return toDefault(value, decimal);
+  return toDefaultBytes(value, decimal);
 };
 
 FormatBytes.propTypes = {

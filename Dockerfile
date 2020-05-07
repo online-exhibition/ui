@@ -1,4 +1,6 @@
-FROM node:12
+FROM node:lts-alpine
+
+RUN apk add --no-cache python make g++
 
 # Create app directory
 WORKDIR /usr/app
