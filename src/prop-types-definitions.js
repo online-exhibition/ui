@@ -12,3 +12,19 @@ export const PropTypeImage = PropTypes.shape({
   height: PropTypes.number,
   originalDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 });
+
+export const PropTypeExhibition = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  summary: PropTypes.string,
+  description: PropTypes.string,
+  maxCount: PropTypes.number,
+  start: PropTypes.string,
+  expire: PropTypes.string,
+  images: PropTypes.arrayOf(PropTypeImage),
+  active: PropTypes.bool,
+  updated: PropTypes.string,
+  created: PropTypes.string,
+  modifier: PropTypes.string,
+  owner: PropTypes.string,
+});

@@ -70,8 +70,6 @@ const Exhibition = () => {
     return () => {};
   }, [exhibition, setCarouselWidth, dispatch]);
 
-  console.log(exhibition, items);
-
   if (!exhibition) {
     return null;
   }
@@ -111,7 +109,7 @@ const Exhibition = () => {
             className={localClasses.carousel}
           >
             {exhibition.images.map((image) => (
-              <Grid key={image.id}>
+              <Grid key={image.id} style={{ backgroundColor: "#fff" }}>
                 <img
                   src={`/api/image/${image.id}`}
                   style={{ width: image.scaleWidth, height: image.scaleHeight }}

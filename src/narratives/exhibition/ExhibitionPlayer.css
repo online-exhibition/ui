@@ -1,0 +1,20 @@
+.white .carousel .control-next.control-arrow:before {
+  border-left: 8px solid #000;
+}
+.white .carousel .control-prev.control-arrow:before {
+  border-right: 8px solid #000;
+}
+
+.black .carousel .control-next.control-arrow:before {
+  border-left: 8px solid #fff;
+}
+.black .carousel .control-prev.control-arrow:before {
+  border-right: 8px solid #fff;
+}
+
+.orange .carousel .control-next.control-arrow:before {
+  border-left: 8px solid darkorange;
+}
+.orange .carousel .control-prev.control-arrow:before {
+  border-right: 8px solid darkorange;
+}

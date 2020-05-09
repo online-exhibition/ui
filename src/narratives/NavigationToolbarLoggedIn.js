@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -9,12 +9,24 @@ import {
   Typography,
   Button,
   Link,
+  MenuItem,
+  Menu,
 } from "@material-ui/core";
 
 import { useStyles } from "styles";
 
 const NavigationToolbarLoggedIn = ({ user, onLogout }) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Toolbar>
       <IconButton
@@ -26,30 +38,52 @@ const NavigationToolbarLoggedIn = ({ user, onLogout }) => {
         <Icon>menu</Icon>
       </IconButton>
       <Typography variant="button">
-        <Link
+        <Button
           component={RouterLink}
-          to="/management/images"
-          underline="none"
-          className={classes.navLink}
-        >
-          Bilder
-        </Link>
-        <Link
-          component={RouterLink}
-          to="/management/exhibition"
+          to="/exhibition"
           underline="none"
           className={classes.navLink}
         >
           Ausstellungen
-        </Link>
-        <Link
-          component={RouterLink}
-          to="/upload"
-          underline="none"
+        </Button>
+        <Button
+          aria-haspopup="true"
+          onClick={handleClick}
           className={classes.navLink}
         >
-          Hochladen
-        </Link>
+          Verwalten
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>
+            <Link
+              component={RouterLink}
+              to="/management/exhibition"
+              underline="none"
+            >
+              Ausstellungen
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link
+              component={RouterLink}
+              to="/management/images"
+              underline="none"
+            >
+              Bilder
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Link component={RouterLink} to="/upload" underline="none">
+              Hochladen
+            </Link>
+          </MenuItem>
+        </Menu>
       </Typography>
       <Typography variant="h6" className={classes.grow}></Typography>
       <Button color="inherit" onClick={onLogout}>

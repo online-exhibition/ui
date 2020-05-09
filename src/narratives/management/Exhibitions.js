@@ -32,10 +32,11 @@ const Exhibitions = () => {
   const {
     exhibitions,
     createNew: createExhibition,
+    update: updateExhibition,
     remove: removeExhibition,
     refresh,
   } = useExhibitions(1);
-  console.log("Exhibition", exhibitions);
+
   const [exhibitionText, setExhibitionText] = useState("");
 
   const add = useCallback(
@@ -71,6 +72,16 @@ const Exhibitions = () => {
       refresh();
     };
   };
+
+  const activate = useCallback((exhibition) => {
+    return async (event) => {
+      console.log("before", exhibition);
+      exhibition.active = event.target.checked;
+      console.log("after", exhibition);
+      await updateExhibition(exhibition);
+      refresh();
+    };
+  }, []);
 
   return (
     <Container maxWidth="lg" className={classes.mt4}>
@@ -127,9 +138,7 @@ const Exhibitions = () => {
                 <ListItemSecondaryAction>
                   <Switch
                     edge="end"
-                    onChange={() => {
-                      exhibition.active = !exhibition.active;
-                    }}
+                    onClick={activate(exhibition)}
                     checked={exhibition.active}
                   />
                   <IconButton

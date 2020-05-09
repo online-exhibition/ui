@@ -1,9 +1,9 @@
-import React from 'react';
-import {Link as RouterLink} from 'react-router-dom';
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 
-import {Toolbar, IconButton, Icon, Typography, Link} from '@material-ui/core';
+import { Toolbar, IconButton, Icon, Typography, Link } from "@material-ui/core";
 
-import {useStyles} from 'styles';
+import { useStyles } from "styles";
 
 const NavigationToolbar = () => {
   const classes = useStyles();
@@ -24,7 +24,7 @@ const NavigationToolbar = () => {
           underline="none"
           className={classes.navLink}
         >
-      Ausstellung
+          Ausstellungen
         </Link>
       </Typography>
       <Typography variant="button">
@@ -34,7 +34,7 @@ const NavigationToolbar = () => {
           underline="none"
           className={classes.navLink}
         >
-      Registrieren
+          Registrieren
         </Link>
       </Typography>
       <Typography variant="button">
@@ -44,7 +44,7 @@ const NavigationToolbar = () => {
           underline="none"
           className={classes.navLink}
         >
-      Einloggen
+          Einloggen
         </Link>
       </Typography>
     </Toolbar>

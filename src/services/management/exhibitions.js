@@ -3,8 +3,8 @@ import { useState, useCallback, useEffect } from "react";
 import { useAuth } from "services/authentication/Authentication";
 import { HttpError } from "utils/http";
 
-export function useExhibitions(page, pageSize = 10) {
-  const { getTokenSilently } = useAuth();
+export function useExhibitions(page, pageSize = 10, activeOnly) {
+  const { getTokenSilently, isAuthenticated } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
@@ -16,19 +16,24 @@ export function useExhibitions(page, pageSize = 10) {
     (async () => {
       setLoading(true);
       try {
-        const token = await getTokenSilently();
         const search = new URLSearchParams({
           skip: (page - 1) * pageSize,
           limit: pageSize,
         });
-        const response = await fetch(
-          "/api/management/exhibition?" + search.toString(),
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        let response;
+        if (activeOnly || !isAuthenticated) {
+          response = await fetch("/api/exhibition?" + search.toString());
+        } else {
+          const token = await getTokenSilently();
+          response = await fetch(
+            "/api/management/exhibition?" + search.toString(),
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+        }
         if (response.status > 399) {
           throw new HttpError(
             response.status,
@@ -99,6 +104,39 @@ export function useExhibitions(page, pageSize = 10) {
     [getTokenSilently]
   );
 
+  const update = useCallback(
+    (exhibition) => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const token = await getTokenSilently();
+          const response = await fetch(
+            `/api/management/exhibition/${exhibition.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify(exhibition),
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }
+          );
+          if (response.status > 399) {
+            throw new HttpError(
+              response.status,
+              "SaveExhibitionFailed",
+              await response.json()
+            );
+          }
+          resolve(await response.json());
+        } catch (err) {
+          console.error(err);
+          reject(err);
+        }
+      });
+    },
+    [getTokenSilently]
+  );
+
   const remove = useCallback(
     (removeId) => {
       const promise = new Promise(async (resolve, reject) => {
@@ -141,6 +179,7 @@ export function useExhibitions(page, pageSize = 10) {
     count,
     pageCount,
     createNew,
+    update,
     remove,
     refresh,
     error,
