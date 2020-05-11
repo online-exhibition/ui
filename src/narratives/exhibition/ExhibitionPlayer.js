@@ -15,11 +15,12 @@ import {
 import { useStyles } from "styles";
 import ExhibitionStart from "./ExhibitionStart";
 import { Carousel } from "react-responsive-carousel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { scaleToScreen } from "utils/dimensions";
 import { hideAppBar } from "redux/appbar/actions";
 
 import "./ExhibitionPlayer.css";
+import selectors from "redux/selectors";
 
 function wait(timeout) {
   return new Promise((resolve) => {
@@ -32,7 +33,6 @@ const useLocalStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 0,
     height: "100%",
-    backgroundColor: "white",
     zIndex: theme.zIndex.drawer - 2,
   },
   start: {
@@ -51,24 +51,6 @@ const useLocalStyles = makeStyles((theme) => ({
   },
 }));
 
-const themes = [
-  {
-    name: "white",
-    backgroundColor: "white",
-    color: "black",
-  },
-  {
-    name: "black",
-    backgroundColor: "black",
-    color: "white",
-  },
-  {
-    name: "orange",
-    backgroundColor: "darkorange",
-    color: "white",
-  },
-];
-
 const ExhibitionPlayer = () => {
   const body = document.querySelector("body");
   const classes = useStyles();
@@ -76,10 +58,47 @@ const ExhibitionPlayer = () => {
 
   const { id } = useParams();
   const dispatch = useDispatch();
+  const themes = useSelector(selectors.theme.getItems);
   const { loading, exhibition } = useExhibition(id);
 
   const [carouselWidth, setCarouselWidth] = useState();
   const [imageIndex, setImageIndex] = useState(0);
+  const [theme, setTheme] = useState();
+
+  const changeTo = useCallback(
+    (imageIndex) => {
+      setImageIndex(imageIndex);
+    },
+    [setImageIndex]
+  );
+
+  const selectTheme = useCallback(
+    (themeName) => {
+      const theme = themes.find((entry) => entry.name === themeName);
+      if (theme && Array.isArray(theme.styles)) {
+        setTheme(theme);
+        const slides = document.querySelectorAll("li.slide");
+        body.style.transition = "background-color 2s";
+        if (slides) {
+          slides.forEach((slide) => {
+            slide.style.backgroundColor = body.style.backgroundColor;
+            slide.style.transition = "background-color 2s";
+          });
+        }
+        theme.styles.forEach((style) => {
+          body.style[style.name] = style.value;
+          if (slides) {
+            if (slides) {
+              slides.forEach((slide) => {
+                slide.style[style.name] = style.value;
+              });
+            }
+          }
+        });
+      }
+    },
+    [themes]
+  );
 
   useEffect(() => {
     if (exhibition && exhibition.images) {
@@ -105,44 +124,16 @@ const ExhibitionPlayer = () => {
   }, [exhibition, setCarouselWidth, dispatch]);
 
   useEffect(() => {
-    if (exhibition) {
-      const theme = themes[imageIndex % themes.length];
-      const slides = document.querySelectorAll("li.slide");
-      body.style.transition = "background-color 2s";
-      if (slides) {
-        slides.forEach((slide) => {
-          slide.style.transition = "background-color 2s";
-        });
-      }
-      Object.keys(theme)
-        .filter((key) => key !== "name")
-        .forEach((key) => {
-          body.style[key] = theme[key];
-          if (slides) {
-            if (slides) {
-              slides.forEach((slide) => {
-                slide.style[key] = theme[key];
-              });
-            }
-          }
-        });
-      console.log(theme);
+    if (exhibition && exhibition.images && exhibition.images[imageIndex]) {
+      selectTheme(exhibition.images[imageIndex].name);
     }
-  }, [imageIndex, exhibition]);
+  }, [imageIndex, exhibition, selectTheme]);
 
   useEffect(() => {
-    const container = document.querySelector("#exhibtionContainer");
-    if (container) {
-      const clientRect = container.getBoundingClientRect();
+    if (exhibition && exhibition.theme) {
+      selectTheme(exhibition.theme);
     }
-  }, [exhibition]);
-
-  const changeTo = useCallback(
-    (imageIndex) => {
-      setImageIndex(imageIndex);
-    },
-    [setImageIndex]
-  );
+  }, [exhibition, selectTheme]);
 
   return (
     <Grid
@@ -159,10 +150,10 @@ const ExhibitionPlayer = () => {
         width={carouselWidth + "px"}
         showStatus={false}
         onChange={changeTo}
-        className={themes[imageIndex % themes.length].name}
       >
         <ExhibitionStart
           exhibition={exhibition}
+          theme={theme}
           className={classesLocal.main}
         />
         {exhibition &&

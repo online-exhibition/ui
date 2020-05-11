@@ -20,6 +20,8 @@ import EditImage from "narratives/management/EditImage";
 import ManagementExhibitions from "narratives/management/Exhibitions";
 import EditExhibtion from "narratives/management/EditExhibtion";
 import ExhibitionPlayer from "narratives/exhibition/ExhibitionPlayer";
+import Themes from "narratives/management/Themes";
+import EditTheme from "narratives/management/EditTheme";
 
 const THEME = createMuiTheme({
   typography: {
@@ -50,6 +52,8 @@ function App() {
           <Route path="/management/images/:id" component={EditImage} />
           <Route path="/management/images" component={Images} />
           <Route path="/management/exhibition/:id" component={EditExhibtion} />
+          <Route path="/management/theme/:id" component={EditTheme} />
+          <Route path="/management/theme" component={Themes} />
           <Route
             path="/management/exhibition"
             component={ManagementExhibitions}

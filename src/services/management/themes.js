@@ -2,13 +2,13 @@ import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "services/authentication/Authentication";
 import { HttpError } from "utils/http";
 
-export function useImages(page, pageSize = 10) {
+export function useThemes(page, pageSize = 10) {
   const { getTokenSilently } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
   const [pageCount, setPageCount] = useState(0);
-  const [images, setImages] = useState([]);
+  const [themes, setThemes] = useState([]);
   const [error, setError] = useState();
 
   const refresh = useCallback(() => {
@@ -21,7 +21,7 @@ export function useImages(page, pageSize = 10) {
           limit: pageSize,
         });
         const response = await fetch(
-          "/api/management/image?" + search.toString(),
+          "/api/management/theme?" + search.toString(),
           {
             headers: {
               Authorization: token,
@@ -31,11 +31,11 @@ export function useImages(page, pageSize = 10) {
         if (response.status > 399) {
           throw new HttpError(
             response.status,
-            "LoadImagesFailed",
+            "LoadThemesFailed",
             await response.json()
           );
         }
-        setImages(await response.json());
+        setThemes(await response.json());
         const count = parseInt(response.headers.get("X-Count"));
         setCount(count);
         const pageCount = Math.ceil(count / pageSize);
@@ -47,7 +47,38 @@ export function useImages(page, pageSize = 10) {
         setLoading(false);
       }
     })();
-  }, [page, pageSize, setLoading, setImages, setCount, setPageCount, setError]);
+  }, [page, pageSize, setLoading, setThemes, setCount, setPageCount, setError]);
+
+  const create = useCallback(
+    ({ name }) => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const token = await getTokenSilently();
+          const response = await fetch(`/api/management/theme`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+            body: JSON.stringify({
+              name,
+            }),
+          });
+          if (response.status > 399) {
+            throw new HttpError(
+              response.status,
+              "CreateThemeFailed",
+              await response.json()
+            );
+          }
+          resolve(await response.json());
+        } catch (err) {
+          reject(err);
+        }
+      });
+    },
+    [getTokenSilently]
+  );
 
   const remove = useCallback(
     (id) => {
@@ -55,7 +86,7 @@ export function useImages(page, pageSize = 10) {
         try {
           setLoading(true);
           const token = await getTokenSilently();
-          const response = await fetch(`/api/management/image/${id}`, {
+          const response = await fetch(`/api/management/theme/${id}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",
@@ -65,7 +96,7 @@ export function useImages(page, pageSize = 10) {
           if (response.status > 399) {
             throw new HttpError(
               response.status,
-              "RemoveImageFailed",
+              "RemoveThemeFailed",
               await response.json()
             );
           }
@@ -89,28 +120,29 @@ export function useImages(page, pageSize = 10) {
 
   return {
     loading,
-    images,
+    themes,
     count,
     pageCount,
+    create,
     remove,
     refresh,
     error,
   };
 }
 
-export function useImage(id) {
+export function useTheme(id) {
   const { getTokenSilently } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const [image, setImage] = useState();
+  const [theme, setTheme] = useState();
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
         const token = await getTokenSilently();
-        const response = await fetch(`/api/management/image/${id}`, {
+        const response = await fetch(`/api/management/theme/${id}`, {
           headers: {
             Authorization: token,
           },
@@ -118,28 +150,28 @@ export function useImage(id) {
         if (response.status > 399) {
           throw new HttpError(
             response.status,
-            "LoadImageFailed",
+            "LoadThemeFailed",
             await response.json()
           );
         }
-        setImage(await response.json());
+        setTheme(await response.json());
       } catch (err) {
         setError(err);
       } finally {
         setLoading(false);
       }
     })();
-  }, [id, setLoading, setImage, setError, getTokenSilently]);
+  }, [id, setLoading, setTheme, setError, getTokenSilently]);
 
   const save = useCallback(
-    (image) => {
+    (theme) => {
       (async () => {
         try {
           setLoading(true);
           const token = await getTokenSilently();
-          const response = await fetch(`/api/management/image/${id}`, {
+          const response = await fetch(`/api/management/theme/${id}`, {
             method: "PUT",
-            body: JSON.stringify(image),
+            body: JSON.stringify(theme),
             headers: {
               "Content-Type": "application/json",
               Authorization: token,
@@ -148,11 +180,11 @@ export function useImage(id) {
           if (response.status > 399) {
             throw new HttpError(
               response.status,
-              "SaveImageFailed",
+              "SaveThemeFailed",
               await response.json()
             );
           }
-          setImage(await response.json());
+          setTheme(await response.json());
         } catch (err) {
           setError(err);
         } finally {
@@ -160,7 +192,7 @@ export function useImage(id) {
         }
       })();
     },
-    [id, setLoading, setImage, setError, getTokenSilently]
+    [id, setLoading, setTheme, setError, getTokenSilently]
   );
 
   const remove = useCallback(() => {
@@ -168,7 +200,7 @@ export function useImage(id) {
       try {
         setLoading(true);
         const token = await getTokenSilently();
-        const response = await fetch(`/api/management/image/${id}`, {
+        const response = await fetch(`/api/management/theme/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -182,7 +214,7 @@ export function useImage(id) {
             await response.json()
           );
         }
-        setImage();
+        setTheme();
         resolve(true);
       } catch (err) {
         setError(err);
@@ -192,11 +224,11 @@ export function useImage(id) {
       }
     });
     return promise;
-  }, [id, setLoading, setImage, setError, getTokenSilently]);
+  }, [id, setLoading, setTheme, setError, getTokenSilently]);
 
   return {
     loading,
-    image,
+    theme,
     save,
     remove,
     error,

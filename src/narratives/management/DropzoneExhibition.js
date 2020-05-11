@@ -65,7 +65,7 @@ const DropzoneExhibition = ({
               />
             </Grid>
             <Grid item xs={6}>
-              <LabelValueList spacing={1}>
+              <LabelValueList>
                 <LabelValue label="Titel:" value={image.title} />
                 <LabelValue label="Author:" value={image.author} />
                 <LabelValue
@@ -80,7 +80,7 @@ const DropzoneExhibition = ({
             </Grid>
             <Grid item xs={1}>
               <IconButton edge="end" onClick={removeImage(image)}>
-                <Icon>remove_circle_outline</Icon>
+                <Icon>delete</Icon>
               </IconButton>
             </Grid>
             <Dropzone

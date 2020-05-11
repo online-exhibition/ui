@@ -60,28 +60,37 @@ const NavigationToolbarLoggedIn = ({ user, onLogout }) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>
-            <Link
-              component={RouterLink}
-              to="/management/exhibition"
-              underline="none"
-            >
-              Ausstellungen
-            </Link>
+          <MenuItem
+            onClick={handleClose}
+            component={RouterLink}
+            to="/management/exhibition"
+            underline="none"
+          >
+            Ausstellungen
           </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <Link
-              component={RouterLink}
-              to="/management/images"
-              underline="none"
-            >
-              Bilder
-            </Link>
+          <MenuItem
+            onClick={handleClose}
+            component={RouterLink}
+            to="/management/images"
+            underline="none"
+          >
+            Bilder
           </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <Link component={RouterLink} to="/upload" underline="none">
-              Hochladen
-            </Link>
+          <MenuItem
+            onClick={handleClose}
+            component={RouterLink}
+            to="/upload"
+            underline="none"
+          >
+            Hochladen
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            component={RouterLink}
+            to="/management/theme"
+            underline="none"
+          >
+            Stile
           </MenuItem>
         </Menu>
       </Typography>

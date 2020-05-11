@@ -21,6 +21,7 @@ import {
   makeStyles,
   InputLabel,
   FormControl,
+  Typography,
 } from "@material-ui/core";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 
@@ -38,7 +39,7 @@ import { useImages } from "services/management/images";
 
 import DropzoneExhibition from "./DropzoneExhibition";
 
-import "./EditExhibition.css";
+import { useThemes } from "services/management/themes";
 
 // eslint-disable-next-line react/prop-types
 function TabPanel({ children, value, index, ...props }) {
@@ -62,6 +63,7 @@ const EditExhibtion = (props) => {
 
   const { exhibition, save } = useExhibition(id);
   const { images, pageCount } = useImages(page, 10);
+  const { themes } = useThemes(1, 100);
 
   const [newExhibition, setNewExhibition] = useState(exhibition);
   const [hasChanges, setHasChanges] = useState(false);
@@ -97,9 +99,12 @@ const EditExhibtion = (props) => {
     [newExhibition, setNewExhibition]
   );
 
-  const onChangeProperty = useCallback(({ target }) => {
-    setNewExhibition({ ...newExhibition, [target.name]: target.value });
-  });
+  const onChangeProperty = useCallback(
+    ({ target }) => {
+      setNewExhibition({ ...newExhibition, [target.name]: target.value });
+    },
+    [newExhibition, setNewExhibition]
+  );
 
   const onSubmit = useCallback(
     async (event) => {
@@ -113,9 +118,11 @@ const EditExhibtion = (props) => {
     },
     [newExhibition, save]
   );
+
   if (!newExhibition) {
     return null;
   }
+
   return (
     <>
       {" "}
@@ -170,11 +177,18 @@ const EditExhibtion = (props) => {
                   </Grid>
                   <Grid item xs={6}>
                     <FormControl fullWidth>
-                      <InputLabel id="theme-select-label">Motiv</InputLabel>
-                      <Select labelId="theme-select-label" value="white">
-                        <MenuItem value="white">Weiß</MenuItem>
-                        <MenuItem value="black">Schwarz</MenuItem>
-                        <MenuItem value="orange">Orange</MenuItem>
+                      <InputLabel id="theme-select-label">Stil</InputLabel>
+                      <Select
+                        labelId="theme-select-label"
+                        name="theme"
+                        value={newExhibition.theme || ""}
+                        onChange={onChangeProperty}
+                      >
+                        {themes.map((theme) => (
+                          <MenuItem value={theme.name} key={theme.name}>
+                            {theme.name}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </Grid>
@@ -205,46 +219,51 @@ const EditExhibtion = (props) => {
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>
-                    <CKEditor
-                      editor={ClassicEditor}
-                      data={exhibition.description}
-                      config={{
-                        toolbar: {
-                          items: [
-                            "heading",
-                            "|",
-                            "bold",
-                            "italic",
-                            "link",
-                            "|",
-                            "bulletedList",
-                            "numberedList",
-                            "quotes",
-                            "|",
-                            "insertTable",
-                            "mediaEmbed",
-                            "|",
-                            "undo",
-                            "redo",
-                          ],
-                        },
-                      }}
-                      onInit={(editor) => {
-                        console.log("Editor is ready to use!", editor);
-                      }}
-                      onChange={(event, editor) => {
-                        const value = editor.getData();
-                        onChangeProperty({
-                          target: { name: "description", value },
-                        });
-                      }}
-                      onBlur={(event, editor) => {
-                        console.log("Blur.", editor);
-                      }}
-                      onFocus={(event, editor) => {
-                        console.log("Focus.", editor);
-                      }}
-                    />
+                    <Typography
+                      component="div"
+                      style={{ fontFamily: "Oswald" }}
+                    >
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={exhibition.description}
+                        config={{
+                          toolbar: {
+                            items: [
+                              "heading",
+                              "|",
+                              "bold",
+                              "italic",
+                              "link",
+                              "|",
+                              "bulletedList",
+                              "numberedList",
+                              "quotes",
+                              "|",
+                              "insertTable",
+                              "mediaEmbed",
+                              "|",
+                              "undo",
+                              "redo",
+                            ],
+                          },
+                        }}
+                        onInit={(editor) => {
+                          console.log("Editor is ready to use!", editor);
+                        }}
+                        onChange={(event, editor) => {
+                          const value = editor.getData();
+                          onChangeProperty({
+                            target: { name: "description", value },
+                          });
+                        }}
+                        onBlur={(event, editor) => {
+                          console.log("Blur.", editor);
+                        }}
+                        onFocus={(event, editor) => {
+                          console.log("Focus.", editor);
+                        }}
+                      />
+                    </Typography>
                   </Grid>
                 </Grid>
               </form>

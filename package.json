@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^7.2.1",
     "date-fns": "^2.12.0",
     "fractional": "^1.0.0",
+    "material-ui-color-picker": "^3.5.0",
     "react": "^16.13.1",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",

@@ -91,7 +91,7 @@ export function useExhibitions(page, pageSize = 10, activeOnly) {
           if (response.status > 399) {
             throw new HttpError(
               response.status,
-              "RemoveExhibitionFailed",
+              "CreateExhibitionFailed",
               await response.json()
             );
           }
