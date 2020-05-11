@@ -22,7 +22,6 @@ export function AuthenticationBasic({ children }) {
   const login = useCallback(
     async (username, password) => {
       setLoading(true);
-      console.log(await digestMessage(password));
       return new Promise(async (resolve, reject) => {
         try {
           const authorizationHeader = encodeBasic(

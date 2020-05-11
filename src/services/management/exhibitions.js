@@ -42,7 +42,6 @@ export function useExhibitions(page, pageSize = 10, activeOnly) {
           );
         }
         const exhibitions = await response.json();
-        console.log("Fetched", exhibitions);
         setExhibitions(exhibitions);
         const count = parseInt(response.headers.get("X-Count"));
         setCount(count);

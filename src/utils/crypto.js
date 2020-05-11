@@ -8,6 +8,5 @@ export async function digestMessage(message, algorithm = "SHA-512") {
   const encoder = new TextEncoder();
   const data = encoder.encode(message);
   const buffer = await crypto.subtle.digest(algorithm, data);
-  console.log(buffer.toString());
   return bufferToHex(buffer);
 }
