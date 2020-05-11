@@ -19,6 +19,7 @@ import Toaster from "components/Toaster";
 import * as serviceWorker from "./serviceWorker";
 import Authentication from "services/authentication/Authentication";
 import ConfirmDialog from "components/ConfirmDialog";
+import StatusMessages from "components/StatusMessages";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -26,9 +27,11 @@ ReactDOM.render(
       <MuiPickersUtilsProvider utils={DateFnsUtils} locale={de}>
         <DndProvider backend={Backend}>
           <ConfirmDialog>
-            <Toaster>
-              <App />
-            </Toaster>
+            <StatusMessages maxMessages={5}>
+              <Toaster>
+                <App />
+              </Toaster>
+            </StatusMessages>
           </ConfirmDialog>
         </DndProvider>
       </MuiPickersUtilsProvider>

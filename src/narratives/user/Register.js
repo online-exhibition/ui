@@ -7,12 +7,12 @@ import { useStyles } from "styles";
 import { useUsers } from "services/user/users";
 import RegisterForm from "./RegisterForm";
 import RegisterSuccess from "./RegisterSuccess";
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 
 const Register = () => {
   const classes = useStyles();
 
-  const { toast } = useToatser();
+  const { toast } = useToaster();
 
   const { create } = useUsers();
 

@@ -12,6 +12,7 @@ import {
   Popover,
   Typography,
   Grid,
+  Link,
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 
@@ -47,11 +48,13 @@ const Images = () => {
         </GridListTile>
         {images.map((tile) => (
           <GridListTile key={tile.id}>
-            <PreloadedImage
-              src={tile.$href}
-              alt={tile.filename}
-              className={"MuiGridListTile-imgFullWidth"}
-            />
+            <Link component={RouterLink} to={`/management/images/${tile.id}`}>
+              <PreloadedImage
+                src={tile.$href}
+                alt={tile.filename}
+                className={"MuiGridListTile-imgFullWidth"}
+              />
+            </Link>
             <GridListTileBar
               title={tile.filename}
               subtitle={

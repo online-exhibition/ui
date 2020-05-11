@@ -16,14 +16,14 @@ import {
 import * as uuid from "uuid";
 
 import { useStyles } from "styles";
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 import { useUpload } from "services/management/upload";
 import { useAuth } from "services/authentication/Authentication";
 import { toIECBytes } from "components/FormatBytes";
 
 const Upload = () => {
   const classes = useStyles();
-  const { toast } = useToatser();
+  const { toast } = useToaster();
   const { getTokenSilently } = useAuth();
 
   const [formRef] = useState(React.createRef());

@@ -23,12 +23,12 @@ import {
 import { useStyles } from "styles";
 
 import FormatDateTime from "components/FormatDateTime";
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 import { useExhibitions } from "services/management/exhibitions";
 
 const Exhibitions = () => {
   const classes = useStyles();
-  const { toast } = useToatser();
+  const { toast } = useToaster();
   const {
     exhibitions,
     createNew: createExhibition,

@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {TextField} from '@material-ui/core';
-import {FormContext} from './Form';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { TextField } from "@material-ui/core";
+import { FormContext } from "./Form";
 
 const emailPattern =
   // eslint-disable-next-line max-len
@@ -25,11 +25,11 @@ function Input({
       const element = inputRef.current;
       const prototype = Object.getPrototypeOf(element);
       const prototypeValueSetter = Object.getOwnPropertyDescriptor(
-          prototype,
-          'value',
+        prototype,
+        "value"
       ).set;
       prototypeValueSetter.call(element, value);
-      const e = new Event('input', {bubbles: true});
+      const e = new Event("input", { bubbles: true });
       element.dispatchEvent(e);
     }
   }, [value, inputRef]);
@@ -37,13 +37,13 @@ function Input({
     <FormContext.Consumer>
       {(form) => {
         if (!form) {
-          throw new Error('No FormContext available.');
+          throw new Error("No FormContext available.");
         }
-        const {data, change, error, register} = form;
+        const { data, change, error, register } = form;
         register({
           name,
           required,
-          validation: {regex: email ? emailPattern : pattern},
+          validation: { regex: email ? emailPattern : pattern },
         });
         return (
           <Component
@@ -52,9 +52,9 @@ function Input({
             disabled={readonly}
             name={name}
             error={error[name]}
-            value={data[name] || ''}
+            value={data[name] || ""}
             onChange={change}
-            inputProps={{ref: inputRef}}
+            inputProps={{ ref: inputRef }}
           >
             {children}
           </Component>

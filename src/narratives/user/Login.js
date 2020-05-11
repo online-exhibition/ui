@@ -1,26 +1,33 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 
 import { Container } from "@material-ui/core";
 
 import { useStyles } from "styles";
 
-import { useToatser } from "components/Toaster";
 import { useAuth } from "services/authentication/Authentication";
+
+import { useStatusMessages } from "components/StatusMessages";
 
 import LoginForm from "./LoginForm";
 import LoginSuccess from "./LoginSuccess";
 
 const Login = () => {
   const classes = useStyles();
-  const { toast } = useToatser();
+  const { success, error } = useStatusMessages();
   const { loading, isAuthenticated, login, user } = useAuth();
 
   const doSubmit = useCallback(
-    (userRequest) => {
+    async (userRequest) => {
       const { username, password } = userRequest;
-      login(username, password);
+      try {
+        // info("Jetzt wird angemeldet");
+        await login(username, password);
+        success("Sie wurden erfolgreich angemeldet.");
+      } catch (err) {
+        error("Sie konnten nicht angemeldet werden.");
+      }
     },
-    [toast]
+    [success, error, login]
   );
 
   return (

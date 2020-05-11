@@ -10,7 +10,7 @@ import LabelValue from "components/LabelValue";
 import FormatDateTime from "components/FormatDateTime";
 import FormatBytes from "components/FormatBytes";
 import { useAuth } from "services/authentication/Authentication";
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 
 const DropzoneExhibition = ({
   height = 200,
@@ -19,7 +19,7 @@ const DropzoneExhibition = ({
   ...props
 }) => {
   const { getTokenSilently } = useAuth();
-  const { toast } = useToatser();
+  const { toast } = useToaster();
   const removeImage = useCallback(
     (image) => {
       return async () => {

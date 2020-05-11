@@ -9,6 +9,9 @@ import {
   TextField,
   Button,
   Typography,
+  IconButton,
+  Icon,
+  AppBar,
 } from "@material-ui/core";
 import isEqual from "lodash/isEqual";
 
@@ -23,14 +26,14 @@ import LabelValueList from "components/LabelValueList";
 import LabelValue from "components/LabelValue";
 import FormatAperture from "components/FormatAperture";
 import { useConfirm } from "components/ConfirmDialog";
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 import FormatDateTime from "components/FormatDateTime";
 
 const EditImage = ({}) => {
   const classes = useStyles();
   const history = useHistory();
   const { id } = useParams();
-  const { toast } = useToatser();
+  const { toast } = useToaster();
   const { confirmDialog } = useConfirm();
 
   const { loading, image, save, remove } = useImage(id);
@@ -92,6 +95,19 @@ const EditImage = ({}) => {
 
   return (
     <>
+      <AppBar position="static">
+        <Grid container direction="row">
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            className={[classes.menuButton, classes.ml1, classes.mr1].join(" ")}
+            onClick={() => history.goBack()}
+          >
+            <Icon>arrow_back</Icon>
+          </IconButton>
+        </Grid>
+      </AppBar>
       {image ? (
         <Grid container direction="row" className={classes.mt4}>
           <Grid item xs={6} className={[classes.pl3, classes.pr3].join(" ")}>

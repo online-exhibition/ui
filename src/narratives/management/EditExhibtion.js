@@ -22,6 +22,7 @@ import {
   InputLabel,
   FormControl,
   Typography,
+  Toolbar,
 } from "@material-ui/core";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 
@@ -30,7 +31,7 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 
 import { useStyles } from "styles";
 
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 import { useConfirm } from "components/ConfirmDialog";
 import ImageList from "components/ImageList";
 
@@ -55,7 +56,7 @@ const EditExhibtion = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { id } = useParams();
-  const { toast } = useToatser();
+  const { toast } = useToaster();
   const { confirmDialog } = useConfirm();
 
   const [page, setPage] = useState(1);
@@ -125,12 +126,22 @@ const EditExhibtion = (props) => {
 
   return (
     <>
-      {" "}
       <AppBar position="static">
-        <Tabs value={activeTab} onChange={(_, value) => setActiveTab(value)}>
-          <Tab label="Metadaten" />
-          <Tab label="Bilder Auswahl" />
-        </Tabs>
+        <Grid container direction="row">
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            className={[classes.menuButton, classes.ml1, classes.mr1].join(" ")}
+            onClick={() => history.goBack()}
+          >
+            <Icon>arrow_back</Icon>
+          </IconButton>
+          <Tabs value={activeTab} onChange={(_, value) => setActiveTab(value)}>
+            <Tab label="Metadaten" />
+            <Tab label="Bilder Auswahl" />
+          </Tabs>
+        </Grid>
       </AppBar>
       <Container>
         <TabPanel value={activeTab} index={0}>

@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import * as uuid from 'uuid';
+import React, { useCallback, useState, useEffect } from "react";
+import * as uuid from "uuid";
 
 export const FormContext = React.createContext();
 
@@ -76,7 +76,7 @@ function Form({ children, input, validation, onSubmit, ...props }) {
   useEffect(() => {
     if (data !== input && input != null) {
       const keys = Object.keys(input);
-      for (var i = 0, n = keys.length; i < n; i++) {
+      for (let i = 0, n = keys.length; i < n; i++) {
         const name = keys[i];
         if (!data[name]) {
           change({ target: { name, value: input[name] } });

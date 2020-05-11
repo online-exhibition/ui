@@ -18,13 +18,13 @@ import {
 
 import { useStyles } from "styles";
 
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 
 import { useThemes } from "services/management/themes";
 
 const Themes = () => {
-  const classes = useStyles;
-  const { toast } = useToatser();
+  const classes = useStyles();
+  const { toast } = useToaster();
 
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
@@ -57,7 +57,7 @@ const Themes = () => {
   );
 
   return (
-    <Container maxWidth="lg" className={classes.mt4}>
+    <Container className={classes.mt4}>
       <form onSubmit={add}>
         <List>
           {themes.map((theme) => (

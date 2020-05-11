@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import { HttpError, encodeBasic } from "utils/http";
+import { digestMessage } from "utils/crypto";
 import {
   getSessionItem,
   setSessionItem,
@@ -21,31 +22,39 @@ export function AuthenticationBasic({ children }) {
   const login = useCallback(
     async (username, password) => {
       setLoading(true);
-      try {
-        const authorizationHeader = encodeBasic(username, password);
-        const response = await fetch("/api/user/login", {
-          headers: {
-            Authorization: authorizationHeader,
-          },
-        });
-        if (response.status > 399) {
-          throw new HttpError(
-            response.status,
-            "LoginFailed",
-            await response.json()
+      console.log(await digestMessage(password));
+      return new Promise(async (resolve, reject) => {
+        try {
+          const authorizationHeader = encodeBasic(
+            username,
+            await digestMessage(password)
           );
+          const response = await fetch("/api/user/login", {
+            headers: {
+              Authorization: authorizationHeader,
+            },
+          });
+          if (response.status > 399) {
+            throw new HttpError(
+              response.status,
+              "LoginFailed",
+              await response.json()
+            );
+          }
+          const user = await response.json();
+          setSessionItem("authorization", authorizationHeader);
+          setSessionItem("user", user);
+          setAuthorization(authorizationHeader);
+          setUser(user);
+          setIsAuthenticated(true);
+          resolve(user);
+        } catch (err) {
+          console.error(err);
+          reject(err);
+        } finally {
+          setLoading(false);
         }
-        const user = await response.json();
-        setSessionItem("authorization", authorizationHeader);
-        setSessionItem("user", user);
-        setAuthorization(authorizationHeader);
-        setUser(user);
-        setIsAuthenticated(true);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+      });
     },
     [setLoading, setAuthorization, setIsAuthenticated, setUser]
   );

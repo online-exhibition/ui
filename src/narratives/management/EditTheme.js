@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import isEqual from "lodash/isEqual";
 import intersection from "lodash/intersection";
@@ -12,6 +12,9 @@ import {
   Select,
   MenuItem,
   Button,
+  IconButton,
+  Icon,
+  AppBar,
 } from "@material-ui/core";
 import ColorPicker from "material-ui-color-picker";
 
@@ -27,6 +30,7 @@ const EditTheme = () => {
   const { id } = useParams();
   const { theme, save } = useTheme(id);
   const themes = useSelector(selectors.theme.getItems);
+  const history = useHistory();
 
   const [hasChanges, setHasChanges] = useState(false);
   const [newTheme, setNewTheme] = useState({});
@@ -115,74 +119,89 @@ const EditTheme = () => {
   }
 
   return (
-    <Container maxWidth="lg" className={classes.mt4}>
-      <form>
-        <Grid container direction="row" spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              required
-              name="name"
-              label="Name"
-              value={newTheme.name}
-              onChange={onChangeProperty}
-            />
-          </Grid>
-          {newTheme && Array.isArray(newTheme.styles)
-            ? newTheme.styles.map((style, index) => (
-                <React.Fragment key={style.name + "_" + index}>
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={9}>
-                    <StyleValuePicker
-                      style={style}
-                      onChange={updateStyle(index)}
-                    />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      onClick={removeStyle(index)}
-                    >
-                      Entfernen
-                    </Button>
-                  </Grid>
-                </React.Fragment>
-              ))
-            : null}
-          <Grid item xs={1}></Grid>
-          <Grid item xs={9}>
-            <StyleValuePicker
-              disabled={!styleAvailable}
-              style={currentStyle}
-              onChange={onStyleChange}
-            />
-          </Grid>
-          <Grid item xs={2} style={{ alignSelf: "flex-end" }}>
-            <Button
-              fullWidth
-              variant="contained"
-              disabled={currentStyle == null || !styleAvailable}
-              onClick={addStyle}
-            >
-              Hinzufügen
-            </Button>
-          </Grid>
-          <Grid item xs={10}></Grid>
-          <Grid item xs={2}>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              disabled={!hasChanges}
-              onClick={updateTheme}
-            >
-              Speichern
-            </Button>
-          </Grid>
+    <>
+      <AppBar position="static">
+        <Grid container direction="row">
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            className={[classes.menuButton, classes.ml1, classes.mr1].join(" ")}
+            onClick={() => history.goBack()}
+          >
+            <Icon>arrow_back</Icon>
+          </IconButton>
         </Grid>
-      </form>
-    </Container>
+      </AppBar>
+      <Container className={classes.mt4}>
+        <form>
+          <Grid container direction="row" spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                name="name"
+                label="Name"
+                value={newTheme.name}
+                onChange={onChangeProperty}
+              />
+            </Grid>
+            {newTheme && Array.isArray(newTheme.styles)
+              ? newTheme.styles.map((style, index) => (
+                  <React.Fragment key={style.name + "_" + index}>
+                    <Grid item xs={1}></Grid>
+                    <Grid item xs={9}>
+                      <StyleValuePicker
+                        style={style}
+                        onChange={updateStyle(index)}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={removeStyle(index)}
+                      >
+                        Entfernen
+                      </Button>
+                    </Grid>
+                  </React.Fragment>
+                ))
+              : null}
+            <Grid item xs={1}></Grid>
+            <Grid item xs={9}>
+              <StyleValuePicker
+                disabled={!styleAvailable}
+                style={currentStyle}
+                onChange={onStyleChange}
+              />
+            </Grid>
+            <Grid item xs={2} style={{ alignSelf: "flex-end" }}>
+              <Button
+                fullWidth
+                variant="contained"
+                disabled={currentStyle == null || !styleAvailable}
+                onClick={addStyle}
+              >
+                Hinzufügen
+              </Button>
+            </Grid>
+            <Grid item xs={10}></Grid>
+            <Grid item xs={2}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                disabled={!hasChanges}
+                onClick={updateTheme}
+              >
+                Speichern
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Container>
+    </>
   );
 };
 

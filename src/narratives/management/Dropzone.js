@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Grid, makeStyles } from "@material-ui/core";
 import { useDrop } from "react-dnd";
 import DraggableImage from "components/DraggableImage";
-import { useToatser } from "components/Toaster";
+import { useToaster } from "components/Toaster";
 import { useAuth } from "services/authentication/Authentication";
 
 const useLocalStyles = makeStyles((theme) => ({
@@ -23,7 +23,7 @@ const useLocalStyles = makeStyles((theme) => ({
 const Dropzone = ({ exhibition, index, onChange }) => {
   const classesLocal = useLocalStyles();
   const { getTokenSilently } = useAuth();
-  const { toast } = useToatser();
+  const { toast } = useToaster();
   const doChange = useCallback(
     async (image) => {
       const token = await getTokenSilently();

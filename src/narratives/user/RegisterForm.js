@@ -1,15 +1,15 @@
-import React, {useCallback} from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback } from "react";
+import PropTypes from "prop-types";
 
-import {Grid, Paper} from '@material-ui/core';
+import { Grid, Paper } from "@material-ui/core";
 
-import {useStyles} from 'styles';
+import { useStyles } from "styles";
 
-import Form from 'components/forms/Form';
-import Input from 'components/forms/Input';
-import Submit from 'components/forms/Submit';
+import Form from "components/forms/Form";
+import Input from "components/forms/Input";
+import Submit from "components/forms/Submit";
 
-const RegisterForm = ({busy, onSubmit}) => {
+const RegisterForm = ({ busy, onSubmit }) => {
   const classes = useStyles();
   const formValidation = useCallback((data, valid) => {
     return (
@@ -27,28 +27,39 @@ const RegisterForm = ({busy, onSubmit}) => {
           <Paper elevation={3} className={classes.p4}>
             <Grid container justify="center" spacing={2}>
               <Grid item xs={12}>
-                <Input required fullWidth
-                  name="username" label="Benutzername" />
+                <Input
+                  required
+                  fullWidth
+                  name="username"
+                  label="Benutzername"
+                />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth
-                  name="email" label="E-Mail" />
+                <Input required fullWidth name="email" label="E-Mail" />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth
-                  name="firstname" label="Vorname" />
+                <Input required fullWidth name="firstname" label="Vorname" />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth
-                  name="name" label="Nachname" />
+                <Input required fullWidth name="name" label="Nachname" />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth type="password"
-                  name="password" label="Passwort" />
+                <Input
+                  required
+                  fullWidth
+                  type="password"
+                  name="password"
+                  label="Passwort"
+                />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth type="password"
-                  name="passwordConfirm" label="Passwort bestätigen" />
+                <Input
+                  required
+                  fullWidth
+                  type="password"
+                  name="passwordConfirm"
+                  label="Passwort bestätigen"
+                />
               </Grid>
               <Grid item xs={12}>
                 <Grid justify="flex-end" container>
@@ -59,7 +70,9 @@ const RegisterForm = ({busy, onSubmit}) => {
                       variant="contained"
                       color="primary"
                       busy={busy}
-                    >Registrieren</Submit>
+                    >
+                      Registrieren
+                    </Submit>
                   </Grid>
                 </Grid>
               </Grid>
