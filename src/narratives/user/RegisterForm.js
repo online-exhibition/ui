@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import { Grid, Paper } from "@material-ui/core";
 
@@ -11,6 +12,7 @@ import Submit from "components/forms/Submit";
 
 const RegisterForm = ({ busy, onSubmit }) => {
   const classes = useStyles();
+  const { t } = useTranslation("user");
   const formValidation = useCallback((data, valid) => {
     return (
       valid &&
@@ -31,17 +33,22 @@ const RegisterForm = ({ busy, onSubmit }) => {
                   required
                   fullWidth
                   name="username"
-                  label="Benutzername"
+                  label={t("Username")}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth name="email" label="E-Mail" />
+                <Input required fullWidth name="email" label={t("E-Mail")} />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth name="firstname" label="Vorname" />
+                <Input
+                  required
+                  fullWidth
+                  name="firstname"
+                  label={t("Firstname")}
+                />
               </Grid>
               <Grid item xs={12}>
-                <Input required fullWidth name="name" label="Nachname" />
+                <Input required fullWidth name="name" label={t("Givenname")} />
               </Grid>
               <Grid item xs={12}>
                 <Input
@@ -49,7 +56,7 @@ const RegisterForm = ({ busy, onSubmit }) => {
                   fullWidth
                   type="password"
                   name="password"
-                  label="Passwort"
+                  label={t("Password")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -58,7 +65,7 @@ const RegisterForm = ({ busy, onSubmit }) => {
                   fullWidth
                   type="password"
                   name="passwordConfirm"
-                  label="Passwort bestätigen"
+                  label={t("PasswordConfirm")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -71,7 +78,7 @@ const RegisterForm = ({ busy, onSubmit }) => {
                       color="primary"
                       busy={busy}
                     >
-                      Registrieren
+                      {t("Register")}
                     </Submit>
                   </Grid>
                 </Grid>

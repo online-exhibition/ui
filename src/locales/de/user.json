@@ -1,0 +1,14 @@
+{
+  "Welcome": "Hallo {{firstname}} {{name}}",
+  "Username": "Benutzername",
+  "Firstname": "Vorname",
+  "Givenname": "Nachname",
+  "Password": "Passwort",
+  "PasswordConfirm": "Passwort bestätigen",
+  "Login": "Anmelden",
+  "LoginSuccessful": "Sie wurden erfolgreich angemeldet.",
+  "LoginFailed": "Sie konnten nicht angemeldet werden.",
+  "Register": "Registrieren",
+  "RegistrationEmailSent": "Wir haben eine E-Mail an Ihre E-Mail Adresse {{email}} gesendet. Sie enthält einen Link mit Hilfe dessen Sie Ihre Registrierung bestätigen können.",
+  "RegistrationFailed": "Ihr Benutzer konnte nicht angelegt werden."
+}

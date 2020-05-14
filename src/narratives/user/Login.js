@@ -10,9 +10,11 @@ import { useStatusMessages } from "components/StatusMessages";
 
 import LoginForm from "./LoginForm";
 import LoginSuccess from "./LoginSuccess";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const classes = useStyles();
+  const { t } = useTranslation("user");
   const { success, error } = useStatusMessages();
   const { loading, isAuthenticated, login, user } = useAuth();
 
@@ -20,14 +22,13 @@ const Login = () => {
     async (userRequest) => {
       const { username, password } = userRequest;
       try {
-        // info("Jetzt wird angemeldet");
         await login(username, password);
-        success("Sie wurden erfolgreich angemeldet.");
+        success(t("LoginSuccessful"));
       } catch (err) {
-        error("Sie konnten nicht angemeldet werden.");
+        error(t("LoginFailed"));
       }
     },
-    [success, error, login]
+    [t, success, error, login]
   );
 
   return (

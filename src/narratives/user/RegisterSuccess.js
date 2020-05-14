@@ -1,11 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Grid, Paper, Typography, Box} from '@material-ui/core';
+import React from "react";
+import PropTypes from "prop-types";
+import { Grid, Paper, Typography, Box } from "@material-ui/core";
 
-import {useStyles} from 'styles';
+import { useStyles } from "styles";
+import { useTranslation } from "react-i18next";
 
-const RegisterSuccess = ({user}) => {
-  const classes=useStyles();
+const RegisterSuccess = ({ user }) => {
+  const classes = useStyles();
+  const { t } = useTranslation("user");
   return (
     <Grid container justify="center" spacing={3}>
       <Grid item xs={4}>
@@ -13,14 +15,8 @@ const RegisterSuccess = ({user}) => {
           <Grid container justify="center" spacing={2}>
             <Grid item xs={12}>
               <Typography>
-                <Box>
-                Hallo {user.firstname} {user.name},
-                </Box>
-                <Box>
-                Wir haben eine E-Mail an Ihre E-Mail Adresse
-                  {user.email} gesendet. Sie enthält einen Link mit
-                Hilfe dessen Sie Ihre Registrierung bestätigen können.
-                </Box>
+                <Box>{t("Welcome", { ...user })}</Box>
+                <Box>{t("RegistrationEmailSent", { ...user })}</Box>
               </Typography>
             </Grid>
           </Grid>

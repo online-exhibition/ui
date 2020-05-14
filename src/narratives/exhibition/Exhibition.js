@@ -42,7 +42,6 @@ const Exhibition = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const body = document.querySelector("body");
     if (exhibition && exhibition.images) {
       const clientRect = document
         .querySelector("#container")
@@ -50,7 +49,6 @@ const Exhibition = () => {
       const containerStyle = getComputedStyle(
         document.querySelector("#container")
       );
-      console.log("Height", containerStyle.height);
       let maxWidth = 0;
       exhibition.images.forEach((image) => {
         const { width, height } = scaleToScreen(
@@ -64,7 +62,6 @@ const Exhibition = () => {
         maxWidth = Math.max(maxWidth, width);
       });
       setCarouselWidth(maxWidth);
-      body.style.backgroundColor = "#444444"; // data.backgroundColor;
       dispatch(hideAppBar());
     }
     return () => {};

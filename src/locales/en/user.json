@@ -1,0 +1,8 @@
+{
+  "Welcome": "Hello {{firstname}} {{name}}",
+  "PasswordConfirm": "Password confirm",
+  "LoginSuccessful": "You're successfully logged in.",
+  "LoginFailed": "Your login attempt failed.",
+  "RegistrationEmailSent": "We have sent an email to your email address {{email}}. It contains a link with which you can confirm your registration.",
+  "RegistrationFailed": "Your user coudn't be created."
+}

@@ -8,9 +8,11 @@ import { useUsers } from "services/user/users";
 import RegisterForm from "./RegisterForm";
 import RegisterSuccess from "./RegisterSuccess";
 import { useToaster } from "components/Toaster";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const classes = useStyles();
+  const { t } = useTranslation("user");
 
   const { toast } = useToaster();
 
@@ -31,12 +33,12 @@ const Register = () => {
         }
       } catch (err) {
         console.error(err);
-        toast("Ihr Benutzer konnte nicht angelegt werden.", "error", 10000);
+        toast(t("RegistrationFailed"), "error", 10000);
       } finally {
         setLoading(false);
       }
     },
-    [create, toast, setLoading, setSuccess]
+    [t, create, toast, setLoading, setSuccess]
   );
 
   return (
